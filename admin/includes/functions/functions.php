@@ -19,7 +19,15 @@
 		}
 	}
 
+	function getcat(){
 
+		global $con;
+	    $getcat =$con->prepare("SELECT * FROM categories ORDER BY ID ASC");
+	    $getcat->execute();
+	    $cats = $getcat->fetchAll();
+	    return $cats;
+
+	}
 
 	/*
 	** check items function v1.0
