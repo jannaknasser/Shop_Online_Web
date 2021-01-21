@@ -18,6 +18,16 @@
 
 		}
 	}
+	/*get item function*/
+	function getItems($CatId){
+
+		global $con;
+	    $getItems =$con->prepare("SELECT * FROM items WHERE Cat_ID = ? ORDER BY Item_ID DESC");
+	    $getItems->execute(array($CatId));
+	    $Items = $getItems->fetchAll();
+	    return $Items;
+
+	}
 
 	function getcat(){
 
