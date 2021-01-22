@@ -5,6 +5,10 @@ body{
 	font-size: 16px;
 }
 
+
+.input-container{
+    position: relative;
+}
 .asterisk{
 	font-size: 30px;
 	position: absolute;
@@ -30,6 +34,8 @@ body{
 .login .form-control {
 	background-color: #F4F4F4;
 }
+
+
 
 .login .btn {
 	background-color: #338b7e;
@@ -323,6 +329,12 @@ overflow: hidden;
 	margin-top: -10px;
 }
 /* End Categories Page Style */
+/* Start Header*/
+.upper-bar{
+padding: 10px;
+background-color: #fff;
+}
+/* End Header  */
 /* Start Login */
 .login-page form {
     max-width: 300px;
@@ -332,7 +344,7 @@ overflow: hidden;
 margin-bottom: 10px;
 }
 .login-page [data-class="login"].selected {
-    color: #337AB7;
+    color: #338B7E;
 }
 .login-page [data-class="signup"].selected {
     color: #5cb85c;
@@ -343,7 +355,7 @@ margin-bottom: 10px;
 .login-page h1 span{
     cursor:pointer;
 }
-.login-page .signup{
-display: none;
-}
+.login-page .signup {
+        display: none;
+  }
 /* End Login  */
