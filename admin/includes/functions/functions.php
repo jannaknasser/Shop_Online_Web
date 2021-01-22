@@ -18,26 +18,8 @@
 
 		}
 	}
-	/*get item function*/
-	function getItems($CatId){
 
-		global $con;
-	    $getItems =$con->prepare("SELECT * FROM items WHERE Cat_ID = ? ORDER BY Item_ID DESC");
-	    $getItems->execute(array($CatId));
-	    $Items = $getItems->fetchAll();
-	    return $Items;
 
-	}
-
-	function getcat(){
-
-		global $con;
-	    $getcat =$con->prepare("SELECT * FROM categories ORDER BY ID ASC");
-	    $getcat->execute();
-	    $cats = $getcat->fetchAll();
-	    return $cats;
-
-	}
 
 	/*
 	** check items function v1.0
@@ -57,6 +39,20 @@
 	    return $count;
 
 	}
+	/*check if user is not active*/
+	function checkUserStatus($user){
+		global $con;
+		$stmt = $con->prepare("SELECT Username,RegStatus 
+		FROM 
+		users
+		WHERE Username = ?
+		AND
+		RegStatus  = 0 ");
+		$stmt->execute(array($user));
+		$Status =$stmt->rowCount();
+		return $Status;
+	}
+
 
 
 	/* 
