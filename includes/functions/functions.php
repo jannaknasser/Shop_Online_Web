@@ -1,15 +1,22 @@
 <?php
 
+function getAllFrom($tableName , $orderBy , $where=NULL){
+
+	global $con;
+	$sql = $where == NULL ? '' : $where ;
+	$getAll =$con->prepare("SELECT * FROM $tableName $sql ORDER BY $orderBy DESC ");
+	$getAll->execute();
+	$all = $getAll->fetchAll();
+	return $all;
+
+}
 
 	/*
 	** title functon v1.0
 	*/
 	function getTitle(){
-
 		global $pageTitle;
-
 		if(isset($pageTitle)){
-
 			echo $pageTitle;
 
 		}else{
@@ -18,8 +25,29 @@
 
 		}
 	}
+           /*check if user is not active*/
+	function checkUserStatus($user){
+		global $con;
+		$stmt = $con->prepare("SELECT Username,RegStatus 
+		FROM 
+		users
+		WHERE Username = ?
+		AND
+		RegStatus  = 0 ");
+		$stmt->execute(array($user));
+		$Status =$stmt->rowCount();
+		return $Status;
+	}
 
+	function getCat(){
 
+		global $con;
+	    $getCat =$con->prepare("SELECT * FROM categories ORDER BY ID ASC");
+	    $getCat->execute();
+	    $cats = $getCat->fetchAll();
+	    return $cats;
+
+	}
 
 	/*
 	** check items function v1.0
@@ -37,6 +65,19 @@
 	    $count = $statement->rowCount();
 	    //echo $count;
 	    return $count;
+
+	}
+
+	/*get item function*/
+	function getItems($where , $value , $approve = NULL){
+
+		global $con;
+		$sql = $approve == NULL ? 'AND Approve = 1' : '' ;
+		
+	    $getItems =$con->prepare("SELECT * FROM items WHERE $where = ? $sql ORDER BY Item_ID DESC");
+	    $getItems->execute(array($value));
+	    $Items = $getItems->fetchAll();
+	    return $Items;
 
 	}
 

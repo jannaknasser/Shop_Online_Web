@@ -39,6 +39,20 @@
 	    return $count;
 
 	}
+	/*check if user is not active*/
+	function checkUserStatus($user){
+		global $con;
+		$stmt = $con->prepare("SELECT Username,RegStatus 
+		FROM 
+		users
+		WHERE Username = ?
+		AND
+		RegStatus  = 0 ");
+		$stmt->execute(array($user));
+		$Status =$stmt->rowCount();
+		return $Status;
+	}
+
 
 
 	/* 
@@ -102,3 +116,4 @@
 	    return $rows;
 
 	}
+	
