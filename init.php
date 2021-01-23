@@ -5,7 +5,11 @@ error_reporting(E_ALL);
 
 	include 'admin/connect.php';
 	$sessionUser ='';
+<<<<<<< HEAD
 	if(isset($_SESSION['user'])) {
+=======
+	if(isset($_SESSION['user'];)) {
+>>>>>>> eda3cc6c901deba950efdcf240e66b2a4d74ea58
 		$sessionUser = $_SESSION['user'];
 
 
