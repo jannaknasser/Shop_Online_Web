@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     // check if the user exist in DB
 
-    $stmt = $con->prepare("SELECT  Username, Password
+    $stmt = $con->prepare("SELECT UserID , Username, Password
      FROM users 
      WHERE 
          Username = ?
@@ -27,24 +27,31 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
          Password = ? ");
 
     $stmt->execute(array($user , $hashedPass));
+    $get = $stmt->fetch();
     $count = $stmt->rowCount();
 
     if($count > 0){
         $_SESSION['Username'] = $user; // Register session name
+        $_SESSION['uid'] =$get['UserID']; // Register User Id
         header('Location: index.php');//Redirect to Dashboard page
         exit();
     }
 } else{
 
     $formErrors =$array() ;
+    $username=$_POST['username'] ;
+    $password=$_POST['password'];
+    $password2=$_POST['password2'];
+    $email=$_POST['email'];
+
     if (isset($_POST['username'])) {
-        $filterdUser = filter_var($_POST['username'] , FILTER_SANITIZE_STRING);
+        $filterdUser = filter_var($username , FILTER_SANITIZE_STRING);
         if (strlen($filterdUser) < 4){
             $formErrors [] = 'Username must ba larger than 4 characters ' ;
         }
     }
 
-    if (isset($_POST['password'])  && isset($_POST['password2'])){
+    if (isset($password)  && isset($password2)){
 
         if(empty ($pass1)) {
             $formErrors[] = 'Sorry Password Cant Be Empty ';
@@ -52,8 +59,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                } 
 
 
-        $pass1 = sha1($_POST['password']) ;
-        $pass2 = sha1($_POST['password2']) ;
+        $pass1 = sha1($password) ;
+        $pass2 = sha1($password2) ;
 
 
         
@@ -67,15 +74,43 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
 
 
-   if (isset($_POST['email'])) {
-      $filterdEmail = filter_var($_POST['email'] , FILTER_SANITIZE_EMAIL);
+   if (isset($email)) {
+      $filterdEmail = filter_var($email , FILTER_SANITIZE_EMAIL);
       if (filter_var($filterdEmail  , FILTER_VALIDATE_EMAIL) !=true){
           $formErrors[] = 'This Email Is Not Valid' ;
 
 
       }
-    
- }           
+ 
+    }
+    		 			// check if No error proceed the User Add  
+ 
+            if(empty($formErrors)){
+
+                $check =  checkItem ("Username" , "users" , $username);
+
+                if ($check == 1){
+
+                    $formErrors[] = 'Sorry This User Is Exists' ;
+              
+   
+
+   }else{
+
+       $stmt = $con->prepare("INSERT INTO 
+                                  users(Username, Password, Email,RegStatus, RegDate)
+                                  VALUES(:user, :pass, :mail, 0, now())");
+       $stmt->execute(array(
+           'user'=>$username,
+           'pass'=>$sha1($password),
+           'mail'=>$email
+           
+       )); 
+
+            $successMsg='Congrats You Are Now Register User'         
+       }
+}		
+
                
  }
       
@@ -85,7 +120,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <div class="container login-page">
     <h1 class="text-center">
         <span class="selected" data-class="login">Login</span> |
-        <span data-class="signup">Signup</span>
+        <span data-class="signUp">Signup</span>
     </h1>
     <!--Start Login Form-->
 	     <form class="login " action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
@@ -117,7 +152,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
      <!--End Login Form-->
     <!--Start Signup Form-->
 
-      <form class="signup"><?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+      <form class="signUp"><?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
          <div class="input-container">
             <input 
             pattern= ".{4,}"
@@ -174,6 +209,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 echo $error . '<br>' ;
                 
             }
+        }
+
+        if(isset($successMsg)){
+            echo'<div class="msg success" >' .$successMsg .'</div>';
         }
         ?>
         </div>	 
