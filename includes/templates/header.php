@@ -35,6 +35,20 @@
 		<?php 
 			
 	
+
+		if(isset($_SESSION['user'])){
+			echo 'Welcome' . $sessionUser . ' ' ;
+			echo '<a href ="profile.php">My Profile</a>';
+			echo '< a href="newAd.php">New Ad</a>';
+			echo '<a href ="logout.php">Logout</a>';
+
+			
+
+			$userStatus =checkUserStatus($sessionUser);
+			  if($userStatus == 1){
+				  //user is not active
+				 // echo 'Your Membership Need To Activiate By Admin';
+			  }
 				} else {
 
 ?>

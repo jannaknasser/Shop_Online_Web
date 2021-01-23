@@ -1,5 +1,7 @@
 <?php 
-ob_start();
+
+op_start();
+
 session_start();
 $pageTitle = 'Show Items';
 include 'init.php';
@@ -15,6 +17,7 @@ $stmt = $con->prepare(" SELECT items.*, categories.Name AS category_name,
                             ON users.UserID = items.Member_ID  WHERE Item_Id = ?
                             AND  Approve=1 ");
                         
+
 
 $stmt->execute(array($itemid));
 $count =$stmt->rowCount();
@@ -50,7 +53,8 @@ $item = $stmt->fetch();
     <li>
     <i class="fa fa-tags fa-fw"></i>
 
-    <span> Category</span>: <a href="categories.php?pageid=<?php echo $item['Cat_ID']?>"></a></li>
+
+    <span> Category</span>: <a href="categories.php?pageid=<?php echo $item['Cat_ID']?>"><?php echo $item['category_name'] ?></a></li>
     <li>
     <i class="fa fa-user fa-fw"></i>
     <span>Added By</span> : <a href="#"> <?php echo $item['Username'] ?></a>
@@ -67,6 +71,7 @@ $item = $stmt->fetch();
     <h3>Add Your Comment</h3>
     <form action="<?php echo $_SERVER['PHP_SELF'] . '?itemid=' . $item['Item_ID']?> " method="POST">
     <textarea name ="comment"  required> </textarea>
+
     <input class="btn btn-primary" type= "submit" value="Add comment">
     </form>
     <?php
@@ -126,6 +131,7 @@ $item = $stmt->fetch();
 <?php foreach($comments as $comment){?>
        <div class="comment-box">
        <div class ="row">
+
          <div class ="col-sm-2 text-center">
          <img class="img-responsive img-thumbnail img-circle center-block" src="img.png" alt="" />
              <?php echo  $comment['Member'] ?> 
@@ -150,3 +156,4 @@ $item = $stmt->fetch();
  ob_end_flush();
 
  ?>
+

@@ -51,6 +51,7 @@ if(isset($_SESSION ['user'])) {
         //Echo Success Message
           if($stm){
             $successMsg = 'Item Has Been Added';
+
           }
                 
     } 
@@ -72,6 +73,7 @@ if(isset($_SESSION ['user'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-3 control-label">Name</label>
                     <div class="col-sm-10 col-md-9">
+ 
                         <input 
                         pattern=".{4,}" 
                         title="This Field Require At Least 4 Characters" 
@@ -81,6 +83,9 @@ if(isset($_SESSION ['user'])) {
                          placeholder="Name Of The Item"
                          data-class =".live-title"
                          required/>
+
+                        <input type="text" name="name" class="form-control live-name"  required="required" placeholder="Name Of The Item"/>
+
                     </div>
                 </div>
 
@@ -97,6 +102,9 @@ if(isset($_SESSION ['user'])) {
                         placeholder="Description Of The Item"
                         data-class =".live-desc"
                          required/>
+
+                        <input type="text" name="desc" class="form-control live-desc" required="required"
+                         placeholder="Description Of The Item"/>
                     </div>
                 </div>
 
@@ -104,6 +112,7 @@ if(isset($_SESSION ['user'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-3 control-label">Price</label>
                     <div class="col-sm-10 col-md-9">
+ 
                         <input 
                         type="text" 
                         name="price" 
@@ -111,6 +120,9 @@ if(isset($_SESSION ['user'])) {
                          placeholder="Price Of The Item"
                          data-class =".live-price"
                          required/>
+
+                        <input type="text" name="price" class="form-control live-price" required="required" placeholder="Price Of The Item"/>
+
                     </div>
                 </div>
 
@@ -125,6 +137,8 @@ if(isset($_SESSION ['user'])) {
                         placeholder="Country of Made"
                         required/>
 
+                        <input type="text" name="country" class="form-control" required="required" placeholder="Country of Made"/>
+ 
                     </div>
                 </div>
 
@@ -133,6 +147,7 @@ if(isset($_SESSION ['user'])) {
                     <label class="col-sm-3 control-label">Status</label>
                     <div class="col-sm-10 col-md-9">
                         <select name="status"  required >
+
                             <option value="">...</option>
                             <option value="1">New</option>
                             <option value="2">Like New</option>
@@ -151,6 +166,14 @@ if(isset($_SESSION ['user'])) {
                             <option value="">...</option>
                             <?php
                             $cats = getAllFrom('categories' , 'ID');
+
+                        <select name="category">
+                            <option value="">...</option>
+                            <?php
+                                $stmt2 = $con->prepare("SELECT * FROM categories");
+                                $stmt2->execute();
+                                $cats = $stmt2->fetchAll();
+
                                 foreach ($cats as $cat) {
                                     echo "<option value= '" . $cat['ID'] . "'>" . $cat['Name'] . "</option>";
                                 }
@@ -189,6 +212,7 @@ if(isset($_SESSION ['user'])) {
                  if(isset($successMsg)){
                     echo'<div class="alert alert-success" >' .$successMsg .'</div>';
                 }
+
                  ?>
                  <!-- End Looping Through Errors-->
              </div>
@@ -205,3 +229,5 @@ if(isset($_SESSION ['user'])) {
  include $tpl . 'footer.php'; 
  ob_end_flush();
  ?>
+
+ include $tpl . 'footer.php'; ?>

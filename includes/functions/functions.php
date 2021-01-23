@@ -11,6 +11,7 @@ function getAllFrom($tableName , $orderBy , $where=NULL){
 
 }
 
+
 	/*
 	** title functon v1.0
 	*/
@@ -29,22 +30,25 @@ function getAllFrom($tableName , $orderBy , $where=NULL){
 	function checkUserStatus($user){
 		global $con;
 		$stmt = $con->prepare("SELECT Username,RegStatus 
+
 		FROM 
 		users
 		WHERE Username = ?
 		AND
 		RegStatus  = 0 ");
-		$stmt->execute(array($user));
+
+		$stmtx->execute(array($user));
 		$Status =$stmt->rowCount();
 		return $Status;
 	}
 
-	function getCat(){
+<
+	function getcat(){
 
 		global $con;
-	    $getCat =$con->prepare("SELECT * FROM categories ORDER BY ID ASC");
-	    $getCat->execute();
-	    $cats = $getCat->fetchAll();
+	    $getcat =$con->prepare("SELECT * FROM categories ORDER BY ID ASC");
+	    $getcat->execute();
+	    $cats = $getcat->fetchAll();
 	    return $cats;
 
 	}
@@ -75,6 +79,7 @@ function getAllFrom($tableName , $orderBy , $where=NULL){
 		$sql = $approve == NULL ? 'AND Approve = 1' : '' ;
 		
 	    $getItems =$con->prepare("SELECT * FROM items WHERE $where = ? $sql ORDER BY Item_ID DESC");
+
 	    $getItems->execute(array($value));
 	    $Items = $getItems->fetchAll();
 	    return $Items;

@@ -1,5 +1,5 @@
 <?php
-<<<<<<< HEAD
+
     ob_start();
 	 session_start();
 	 $pageTitle = 'Homepage';
@@ -23,17 +23,19 @@
         echo'</div>';
         echo'</div>';
         echo'</div>';
-=======
+
 	 session_start();
 	 $pageTitle = 'Home';
 
->>>>>>> eda3cc6c901deba950efdcf240e66b2a4d74ea58
+	 session_start();
+	 $pageTitle = 'Home';
+
 
 	if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
 		$uri = 'https://';
 	} else {
 		$uri = 'http://';
-<<<<<<< HEAD
+
     }
     ?>
     </div>
@@ -43,12 +45,9 @@
     include $tpl . 'footer.php';
     ob_end_flush() ;
 ?>
-=======
 	}
 	$uri .= $_SERVER['HTTP_HOST'];
 	header('Location: '.$uri.'/dashboard/');
 	exit;
 ?>
-    Something is wrong with the XAMPP installation :-(
-	
->>>>>>> eda3cc6c901deba950efdcf240e66b2a4d74ea58
+   

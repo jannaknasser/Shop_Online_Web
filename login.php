@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <?php
 session_start();
 $pageTitle = 'Login';
@@ -16,7 +16,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $user = $_POST['username'];
     $pass = $_POST['password'];
-    $hashedPass = sha1($password);
+
+    $hashedPass = sha1($pass);
+
     
     // check if the user exist in DB
 
@@ -109,6 +111,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
        )); 
 
             $successMsg='Congrats You Are Now Register User'  ;       
+
        }
 }		
 
@@ -225,7 +228,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     ?>
 
 
-=======
+
 <?php
 session_start();
 $pageTitle = 'Login';
@@ -413,4 +416,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     ?>
 
 
->>>>>>> eda3cc6c901deba950efdcf240e66b2a4d74ea58
+

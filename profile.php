@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <?php 
 session_start();
 $pageTitle = 'Profile';
@@ -46,6 +46,14 @@ if(isset($_SESSION ['user'])) {
         </div>
 </div>
         <div id="my-ads"  class ="my-ads block">
+
+        </div>
+        </div>
+       </div>
+        </div>
+
+        <div class ="my-ads block">
+
         <div class ="container">
         <div class ="panel panel-primary">
         <div class ="panel-heading">My Ads</div>
@@ -58,6 +66,7 @@ if(isset($_SESSION ['user'])) {
         echo '<div class="col-sm-6 coll-md-3">';
            echo '<div class ="thumbnail item-box">'; 
            if($item ['Approve'] == 0) {echo 'Not Approved' ;}
+
             echo '<span class="price-tag">$' .$item['price'] .'</span>';
                echo '<img class="img-responsive" src="img.png" alt="" />';
                  echo'<div class="caption">' ;
@@ -121,7 +130,7 @@ if(isset($_SESSION ['user'])) {
         exit();
 }
 
-=======
+
 <?php 
 session_start();
 $pageTitle = 'Profile';
@@ -216,5 +225,5 @@ if(isset($_SESSION ['user'])) {
         exit();
 }
 
->>>>>>> eda3cc6c901deba950efdcf240e66b2a4d74ea58
+
  include $tpl . 'footer.php'; ?>
