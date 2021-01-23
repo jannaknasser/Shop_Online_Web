@@ -1,6 +1,6 @@
 <?php 
 
-op_start();
+ob_start();
 
 session_start();
 $pageTitle = 'Show Items';
