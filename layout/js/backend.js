@@ -1,12 +1,6 @@
 $(function(){
 
 	'use strict';
-	//Switch between login & signup
-	$('.login-page h1 span').click(function(){
-		$(this).addClass('selected').siblings().removeClass('selected');
-		$('.login-page form') .hide();
-		$( '.' + $(this).data('class')).fadeIn(100);
-	})
 
 	// Trigger the SelectBox  
 	$("select").selectBoxIt({
@@ -36,6 +30,17 @@ $(function(){
 	});
 
 
+	//convert password field to  Text field  on haver
+
+	var passField = $('.password');
+	$('.show-pass') .hover(function(){
+	 passField.attr('type','text');
+	},function(){
+    passField.attr('type','password');
+
+	});
+
+
 	// Confirmation message on button
 
 	$('.confirm').click(function(){
@@ -43,15 +48,24 @@ $(function(){
 		return confirm('Are You Sure?');
 	});
 
-	$('.live-name') .keyup(function(){
- 
-	$('.live-preview .caption h3') .text($(this).val());
-	});
 
-	$('.live-desc') .keyup(function(){
-        $('.live-preview .caption p') .text($(this).val());
-	});
-   $('.live-price') .keyup(function(){
-     $('.live-preview .price-tag') .text('$' + $(this).val());
-});
+	// Categories view options 
+
+	$('.cat h3') .click(function (){
+	     $(this).next('.full-view') .fadeToggle(200);
+
+	}) ;
+
+
+
+	$('.option span').click(function(){
+		
+    $(this).addClass('active').sibling('span').removeClass('active');
+    if($(this).data('view') === 'full' ){
+        $('.cat .full-view') .fadeIn(200);
+    }else{
+        $('.cat .full-view') .fadeOut(200);
+    }
+	}); 
+
 });
