@@ -1,5 +1,7 @@
 <?php 
+
 ob_start();
+
 	session_start();
 
 	$pageTitle = 'Comments';
@@ -83,7 +85,6 @@ ob_start();
     			echo "</div>";
     		} 
     		?>
-
     		
 
 			<?php

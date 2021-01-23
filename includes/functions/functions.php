@@ -5,11 +5,8 @@
 	** title functon v1.0
 	*/
 	function getTitle(){
-
 		global $pageTitle;
-
 		if(isset($pageTitle)){
-
 			echo $pageTitle;
 
 		}else{
@@ -18,8 +15,29 @@
 
 		}
 	}
+           /*check if user is not active*/
+	function checkUserStatus($user){
+		global $con;
+		$stmtx = $con->prepare("SELECT Username,RegStatus 
+		FROM 
+		users
+		WHERE Username = ?
+		AND
+		RegStatus  = 0 ");
+		$stmtx->execute(array($user));
+		$Status =$stmt->rowCount();
+		return $Status;
+	}
 
+	function getcat(){
 
+		global $con;
+	    $getcat =$con->prepare("SELECT * FROM categories ORDER BY ID ASC");
+	    $getcat->execute();
+	    $cats = $getcat->fetchAll();
+	    return $cats;
+
+	}
 
 	/*
 	** check items function v1.0
@@ -39,20 +57,17 @@
 	    return $count;
 
 	}
-	/*check if user is not active*/
-	function checkUserStatus($user){
-		global $con;
-		$stmt = $con->prepare("SELECT Username,RegStatus 
-		FROM 
-		users
-		WHERE Username = ?
-		AND
-		RegStatus  = 0 ");
-		$stmt->execute(array($user));
-		$Status =$stmt->rowCount();
-		return $Status;
-	}
 
+	/*get item function*/
+	function getItems($where , $value){
+
+		global $con;
+	    $getItems =$con->prepare("SELECT * FROM items WHERE $where = ? ORDER BY Item_ID DESC");
+	    $getItems->execute(array($value));
+	    $Items = $getItems->fetchAll();
+	    return $Items;
+
+	}
 
 
 	/* 
@@ -116,4 +131,3 @@
 	    return $rows;
 
 	}
-	
