@@ -1,4 +1,7 @@
 <?php 
+
+ob_start();
+
 	session_start();
 
 	$pageTitle = 'Comments';
@@ -24,10 +27,11 @@
 									ON
 										users.UserID = comments.user_id
 									ORDER BY 
-									c_id DESC 	");
+										c_id DESC
+									");
 			$stmt->execute();
 			$rows = $stmt->fetchAll();
-
+			if (!empty($rows)) {
 			?>
 
 
@@ -74,6 +78,13 @@
     			</div>
     		</div>	
 
+    		<?php }else{
+
+    			echo '<div class="container">';
+    				echo '<div class="nice-message">There\'s No Comments To Show</div>';
+    			echo "</div>";
+    		} 
+    		?>
     		
 
 			<?php
@@ -231,3 +242,6 @@
 
 		exit();
 	}
+
+ob_get_flush();
+?>

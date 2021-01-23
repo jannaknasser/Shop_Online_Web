@@ -1,4 +1,6 @@
 <?php 
+ob_start();
+
 	session_start();
 
 	$pageTitle = 'Members';
@@ -18,10 +20,11 @@
 			}
 
 
-			$stmt = $con->prepare("SELECT * FROM users WHERE GroupID != 1 $query");
+			$stmt = $con->prepare("SELECT * FROM users WHERE GroupID != 1 $query ORDER BY UserID DESC");
 			$stmt->execute();
 			$rows = $stmt->fetchAll();
 
+			if (!empty($rows)) {
 			?>
 
 
@@ -40,6 +43,8 @@
 
     					<?php
 
+    					
+    					
     					foreach ($rows as $row) {
     						echo "<tr>";
     							echo "<td>" . $row['UserID'] . "</td>";
@@ -63,9 +68,21 @@
 
     				</table>
     			</div>
-    			<a href="members.php?do=Add" class="btn btn-primary"><i class="fa fa-plus"></i> New Member</a>
+    			<a href="members.php?do=Add" class="btn btn-primary">
+    				<i class="fa fa-plus"></i> New Member
+    			</a>
     		</div>	
 
+    		<?php }else{
+
+    			echo '<div class="container">';
+    				echo '<div class="nice-message">There\'s No Members To Show</div>';
+    				echo '<a href="members.php?do=Add" class="btn btn-primary">
+    						<i class="fa fa-plus"></i> New Member
+    					</a>';
+    			echo "</div>";
+    		} 
+    		?>
     		
 
 <?php	}elseif($do == 'Add'){ // Add Members Page ?>
@@ -323,17 +340,27 @@
 
 	 			if(empty($formErrors)){
 
-	 				$stmt = $con->prepare("UPDATE users SET Username = ?, Email = ?, Fullname = ?, Password = ? WHERE UserID = ? ");
+	 				$stmt2 = $con->prepare("SELECT * FROM users WHERE Username = ? AND UserID != ?");
+	 				$stmt2->execute(array( $user, $id));
+	 				$count = $stmt2->rowCount();
 
-					$stmt->execute(array( $user, $email, $name, $pass, $id));
+	 				if ($count == 1) {
+	 					//echo '<div class="alert alert-danger">Sorry, This User is Exist</div>';
+	 					$theMsg =  "<div class='alert alert-danger'> Sorry, This User is Exist</div>";
+	 					redirectHome($theMsg , 'back',3);
+	 				}else{
 
-					$theMsg =  "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Updated</div>';
+	 					$stmt = $con->prepare("UPDATE users SET Username = ?, Email = ?, Fullname = ?, Password = ? WHERE UserID = ? ");
 
-					echo "<div class='container'>";
-					redirectHome($theMsg , 'back',3);
-			        echo "</div>";
-					
+						$stmt->execute(array( $user, $email, $name, $pass, $id));
 
+						$theMsg =  "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Updated</div>';
+
+						echo "<div class='container'>";
+						redirectHome($theMsg , 'back',3);
+				        echo "</div>";
+
+	 				}
 	 			}
 	 			
 
@@ -373,7 +400,7 @@
 
 					echo "<div class='container'>";
 					$theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Deleted</div>';
-					redirectHome($theMsg);
+					redirectHome($theMsg ,'back');
 		 			echo "</div>";
 
 				}else{
@@ -427,3 +454,6 @@
 
 		exit();
 	}
+
+  ob_get_flush();
+  ?>

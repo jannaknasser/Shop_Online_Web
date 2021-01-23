@@ -34,7 +34,7 @@ if(isset($_SESSION['Username'])){
 
 	    			<i class="fa fa-edit"></i>Manage Categories
 	    			<div class="option pull-right">
-	    				<i class="fa fa-sort"></i>Ordering: []
+	    				<i class="fa fa-sort"></i>Ordering: [
 	    				<a class="<?php if($sort =='ASC'){ echo 'active'; } ?>" href="?sort=ASC">ASC</a> | 
 	    				<a class="<?php if($sort =='DESC'){ echo 'active'; } ?>" href="?sort=DESC">DESC</a> ]
 	    				<i class="fa fa-eye"></i>View: [
@@ -442,5 +442,6 @@ if(isset($_SESSION['Username'])){
         header('Location: index.php');
         exit();
     }
-  ob_get_flush();
+  
+ob_get_flush();
 ?>
