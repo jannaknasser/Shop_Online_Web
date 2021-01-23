@@ -16,6 +16,26 @@
 <div class="upper-bar">
     <div class="container">
 		<?php 
+		if(isset($_SESSION['user'])){ ?>
+		'<img class= "my-image img-thumbnail img-circle" src="img.png" alt="" />'
+
+		<div class="btn-group my-info ">
+			<span class = "btn btn-default dropdown-toggle" data-toggle="dropdown" >
+				<?php echo $sessionUser ?>
+				<span class = "caret"></span>
+		</span>
+				<ul class ="dropdown-menu">
+					<li><a href = "profile.php">My Profile</a></li>
+					<li><a href = "newAd.php">New Item</a></li>
+					<li><a href = "profile.php#my-ads">My Items</a></li>
+					<li><a href = "logout.php">Logout</a></li>
+
+		</ul>
+		</div>
+		<?php 
+			
+	
+
 		if(isset($_SESSION['user'])){
 			echo 'Welcome' . $sessionUser . ' ' ;
 			echo '<a href ="profile.php">My Profile</a>';

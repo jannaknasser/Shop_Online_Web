@@ -47,8 +47,11 @@ if(isset($_SESSION ['user'])) {
             'cat'=>$category,
             'member'=>$_SESSION['uid']
         )); 
+
+        //Echo Success Message
           if($stm){
-        echo 'Item Added';
+            $successMsg = 'Item Has Been Added';
+
           }
                 
     } 
@@ -70,7 +73,19 @@ if(isset($_SESSION ['user'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-3 control-label">Name</label>
                     <div class="col-sm-10 col-md-9">
+ 
+                        <input 
+                        pattern=".{4,}" 
+                        title="This Field Require At Least 4 Characters" 
+                        type="text" 
+                        name="name" 
+                        class="form-control live-name"  
+                         placeholder="Name Of The Item"
+                         data-class =".live-title"
+                         required/>
+
                         <input type="text" name="name" class="form-control live-name"  required="required" placeholder="Name Of The Item"/>
+
                     </div>
                 </div>
 
@@ -78,6 +93,16 @@ if(isset($_SESSION ['user'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-3 control-label">Description</label>
                     <div class="col-sm-10 col-md-9">
+                        <input 
+                        pattern=".{10,}" 
+                        title="This Field Require At Least 10 Characters" 
+                        type="text" 
+                        name="desc" 
+                        class="form-control live-desc" 
+                        placeholder="Description Of The Item"
+                        data-class =".live-desc"
+                         required/>
+
                         <input type="text" name="desc" class="form-control live-desc" required="required"
                          placeholder="Description Of The Item"/>
                     </div>
@@ -87,7 +112,17 @@ if(isset($_SESSION ['user'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-3 control-label">Price</label>
                     <div class="col-sm-10 col-md-9">
+ 
+                        <input 
+                        type="text" 
+                        name="price" 
+                        class="form-control live-price"
+                         placeholder="Price Of The Item"
+                         data-class =".live-price"
+                         required/>
+
                         <input type="text" name="price" class="form-control live-price" required="required" placeholder="Price Of The Item"/>
+
                     </div>
                 </div>
 
@@ -95,7 +130,15 @@ if(isset($_SESSION ['user'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-3 control-label">Country</label>
                     <div class="col-sm-10 col-md-9">
+                        <input 
+                        type="text" 
+                        name="country" 
+                        class="form-control" 
+                        placeholder="Country of Made"
+                        required/>
+
                         <input type="text" name="country" class="form-control" required="required" placeholder="Country of Made"/>
+ 
                     </div>
                 </div>
 
@@ -103,7 +146,8 @@ if(isset($_SESSION ['user'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-3 control-label">Status</label>
                     <div class="col-sm-10 col-md-9">
-                        <select name="status">
+                        <select name="status"  required >
+
                             <option value="">...</option>
                             <option value="1">New</option>
                             <option value="2">Like New</option>
@@ -118,12 +162,18 @@ if(isset($_SESSION ['user'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-3 control-label">Category</label>
                     <div class="col-sm-10 col-md-9">
+                        <select name="category" required >
+                            <option value="">...</option>
+                            <?php
+                            $cats = getAllFrom('categories' , 'ID');
+
                         <select name="category">
                             <option value="">...</option>
                             <?php
                                 $stmt2 = $con->prepare("SELECT * FROM categories");
                                 $stmt2->execute();
                                 $cats = $stmt2->fetchAll();
+
                                 foreach ($cats as $cat) {
                                     echo "<option value= '" . $cat['ID'] . "'>" . $cat['Name'] . "</option>";
                                 }
@@ -159,7 +209,10 @@ if(isset($_SESSION ['user'])) {
                          echo'<div class="alert alert-danger">' .$error .'</div>';
                      }
                  }
-                 
+                 if(isset($successMsg)){
+                    echo'<div class="alert alert-success" >' .$successMsg .'</div>';
+                }
+
                  ?>
                  <!-- End Looping Through Errors-->
              </div>
@@ -172,5 +225,9 @@ if(isset($_SESSION ['user'])) {
         header('Location: login.php');
         exit();
 }
+
+ include $tpl . 'footer.php'; 
+ ob_end_flush();
+ ?>
 
  include $tpl . 'footer.php'; ?>

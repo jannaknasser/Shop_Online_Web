@@ -1,5 +1,16 @@
 <?php
 
+function getAllFrom($tableName , $orderBy , $where=NULL){
+
+	global $con;
+	$sql = $where == NULL ? '' : $where ;
+	$getAll =$con->prepare("SELECT * FROM $tableName $sql ORDER BY $orderBy DESC ");
+	$getAll->execute();
+	$all = $getAll->fetchAll();
+	return $all;
+
+}
+
 
 	/*
 	** title functon v1.0
@@ -18,17 +29,20 @@
            /*check if user is not active*/
 	function checkUserStatus($user){
 		global $con;
-		$stmtx = $con->prepare("SELECT Username,RegStatus 
+		$stmt = $con->prepare("SELECT Username,RegStatus 
+
 		FROM 
 		users
 		WHERE Username = ?
 		AND
 		RegStatus  = 0 ");
+
 		$stmtx->execute(array($user));
 		$Status =$stmt->rowCount();
 		return $Status;
 	}
 
+<
 	function getcat(){
 
 		global $con;
@@ -59,10 +73,13 @@
 	}
 
 	/*get item function*/
-	function getItems($where , $value){
+	function getItems($where , $value , $approve = NULL){
 
 		global $con;
-	    $getItems =$con->prepare("SELECT * FROM items WHERE $where = ? ORDER BY Item_ID DESC");
+		$sql = $approve == NULL ? 'AND Approve = 1' : '' ;
+		
+	    $getItems =$con->prepare("SELECT * FROM items WHERE $where = ? $sql ORDER BY Item_ID DESC");
+
 	    $getItems->execute(array($value));
 	    $Items = $getItems->fetchAll();
 	    return $Items;

@@ -1,5 +1,7 @@
 <?php 
+
 op_start();
+
 session_start();
 $pageTitle = 'Show Items';
 include 'init.php';
@@ -12,7 +14,10 @@ $stmt = $con->prepare(" SELECT items.*, categories.Name AS category_name,
                             INNER JOIN categories
                             ON categories.ID = items.Cat_ID
                             INNER JOIN users
-                            ON users.UserID = items.Member_ID  WHERE Item_Id = ?");
+                            ON users.UserID = items.Member_ID  WHERE Item_Id = ?
+                            AND  Approve=1 ");
+                        
+
 
 $stmt->execute(array($itemid));
 $count =$stmt->rowCount();
@@ -48,6 +53,7 @@ $item = $stmt->fetch();
     <li>
     <i class="fa fa-tags fa-fw"></i>
 
+
     <span> Category</span>: <a href="categories.php?pageid=<?php echo $item['Cat_ID']?>"><?php echo $item['category_name'] ?></a></li>
     <li>
     <i class="fa fa-user fa-fw"></i>
@@ -64,7 +70,8 @@ $item = $stmt->fetch();
         <div class="add-comment">
     <h3>Add Your Comment</h3>
     <form action="<?php echo $_SERVER['PHP_SELF'] . '?itemid=' . $item['Item_ID']?> " method="POST">
-    <textarea name ="comment" ></textarea>
+    <textarea name ="comment"  required> </textarea>
+
     <input class="btn btn-primary" type= "submit" value="Add comment">
     </form>
     <?php
@@ -123,7 +130,8 @@ $item = $stmt->fetch();
 
 <?php foreach($comments as $comment){?>
        <div class="comment-box">
-       <div class ="row">;
+       <div class ="row">
+
          <div class ="col-sm-2 text-center">
          <img class="img-responsive img-thumbnail img-circle center-block" src="img.png" alt="" />
              <?php echo  $comment['Member'] ?> 
@@ -136,13 +144,16 @@ $item = $stmt->fetch();
            <hr class ="custom-hr">
             <?php } ?>
     </div>
-        <?php
+        <?php }
 
 } else {
-    echo 'There\s no such ID' ;
+    echo '<div class = "container">';
+    echo '<div class = "alert alert-danger"> There\'s no such ID Or This Item Is Waiting Approval </div> ' ;
+    echo '</div> ';
 
-}
+} 
  include $tpl . 'footer.php';
-         ob_end_flush();
-    ?>
- 
+ ob_end_flush();
+
+ ?>
+
